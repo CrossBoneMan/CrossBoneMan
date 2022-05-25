@@ -12,18 +12,29 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
+    
     runs-on: ubuntu-latest
+    
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    - name: Download from Google Drive
+    - uses: satackey/action-google-drive@v1
+    - with:
+       skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
+       download-from: /path/to/download
+       download-to: ./
+
+        # For those who set up Google Drive API client ID and secret themselves
+       google-client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
+       google-client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+    
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - uses: FedericoCarboni/setup-ffmpeg@v1
-        id: setup-ffmpeg
-      - run: ffmpeg -i https://drive.google.com/file/d/13yOoryEu2psEoy9cOt65HC1WvWwYV6lg/view?usp=sharing output.mp4
